@@ -26,9 +26,9 @@ void exec();
 
 /****************************************/
 
-int Add_end(int i);
-int Add_start(int i);
-int Add_after(int i, int j);
+int Add_end(int index);
+int Add_start(int index);
+int Add_after(int insert_after_data_loc, int data_loc);
 int Index(int i);
 int Del(int index);
 int Print();

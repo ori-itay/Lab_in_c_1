@@ -67,10 +67,27 @@ int Add_start(int data){
 	}
 	return 0;
 }
-int Add_after(int insert_after_loc, int loc){
-
-
-
+int Add_after(int insert_after_data_loc, int data_loc){
+	int found=0;
+	Node* temp = list.head;
+	while (temp!=NULL){
+		if (temp->data==data_loc){
+			found=1;
+			Node* new_node = (Node*)malloc(sizeof(Node));
+			new_node->data = insert_after_data_loc;
+			if (temp->next==NULL){
+				new_node->next=NULL;
+			}
+			else{
+				new_node->next = temp->next;
+			}
+			temp->next=new_node;
+		}
+	}
+	if (!found){
+		printf("Error: No such element j exists!\n");
+		return 1;
+	}
 	return 0;
 }
 int Index(int i);
