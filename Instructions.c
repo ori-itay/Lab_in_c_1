@@ -26,8 +26,7 @@ int fetch_and_exec_cmd() {
 	parse(command, parsedCommand);
 	//printf("parsed_command[0]: %s, parsed_command[1]: %s, parsed_command[2]: %s. \n", parsedCommand[0], parsedCommand[1], parsedCommand[2]);
 	command_num = getCommandNum(parsedCommand);
-	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]));
-
+	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]) == 1);
 	return 1;
 }
 
@@ -53,7 +52,7 @@ void toLowerCase(char line[]) {
 
 int Exit() {
 	free_list();
-	return 1;
+	exit(0);
 }
 
 
@@ -108,7 +107,7 @@ int getCommandNum(char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]) {
 		return 3;
 	if (strcmp(parsedCommand[0], "index") == 0)
 		return 4;
-	if (strcmp(parsedCommand[0], "del") == 0 && strcmp(parsedCommand[1], "index") == 0)
+	if (strcmp(parsedCommand[0], "del") == 0 && strcmp(parsedCommand[1], "") != 0)
 		return 5;
 	if (strcmp(parsedCommand[0], "print") == 0)
 		return 6;
@@ -154,8 +153,7 @@ int execute(int commandNum, int i, int j) {
 		break;
 	case 7:
 		Exit();
-		break;
 	}
 
-	return 0;
+	return 1;
 }
