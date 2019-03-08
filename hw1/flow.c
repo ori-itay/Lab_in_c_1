@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "LinkedList.h"
+
+#include "Instructions.h"
 
 int main(void){
 	while (fetch_and_exec_cmd()){
