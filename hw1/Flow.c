@@ -31,11 +31,11 @@ int fetch_and_exec_cmd() {
 		return 0;
 	}
 	toLowerCase(command);
-	printf("entered command is : %s\n", command);
+	//printf("entered command is : %s\n", command);
 	parse(command, parsedCommand);
-	printf("parsed_command[0]: %s, parsed_command[1]: %s, parsed_command[2]: %s. \n", parsedCommand[0], parsedCommand[1], parsedCommand[2]);
+	//printf("parsed_command[0]: %s, parsed_command[1]: %s, parsed_command[2]: %s. \n", parsedCommand[0], parsedCommand[1], parsedCommand[2]);
 	command_num = getCommandNum(parsedCommand);
-	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]) == 1);
+	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]));
 	return 1;
 }
 

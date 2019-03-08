@@ -55,7 +55,7 @@ int Add_after(int insert_after_data_loc, int data_loc) {
 		}
 		current = current->next;
 	}
-	if (!found) {
+	if (found==0) {
 		printf("Error: No such element %d exists!\n", data_loc);
 		free_list();
 		exit(1);
