@@ -1,10 +1,3 @@
-/*
- * LinkedList.h
- *
- *  Created on: Mar 7, 2019
- *      Author: Ori
- */
-
 #ifndef INSTRUCTIONS_H_
 #define INSTRUCTIONS_H_
 

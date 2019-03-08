@@ -142,4 +142,3 @@ void free_list(){
 		deleted=after_deleted;
 	}
 }
-
