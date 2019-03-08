@@ -3,14 +3,6 @@
 
 #include "LinkedList.h"
 
-
-int Add_end(int index);
-int Add_start(int index);
-int Add_after(int insert_after_data_loc, int data_loc);
-int Index(int i);
-int Delete(int index);
-int Print();
-
 LinkedList list;
 
 struct Node* allocate(int data, struct Node* next){
@@ -69,7 +61,7 @@ int Add_after(int insert_after_data_loc, int data_loc){
 	return 0;
 }
 
-int Index(int data){
+int Index_of(int data){
 	int found=0,index_found=0;
 	struct Node* temp = list.head;
 	while (temp!=NULL){
@@ -126,7 +118,7 @@ int Delete(int index){
 	}
 }
 
-int Print(){
+int Print_list(){
 	printf("[");
 	struct Node* current = list.head;
 	while (current!=NULL){
