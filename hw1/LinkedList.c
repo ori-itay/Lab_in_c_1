@@ -13,22 +13,25 @@ int Print();
 
 LinkedList list;
 
+struct Node* allocate(int data, struct Node* next){
+	struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+	new_node->data = data;
+	new_node->next = next;
+	return new_node;
+}
 
 int Add_end(int data){
 	if (list.head==NULL){
-		list.head=(struct Node*)malloc(sizeof(struct Node));
-		list.head->data=data;
-		list.head->next=NULL;
+		list.head=allocate(data, NULL);
 	}
 	else{
 		struct Node* temp = list.head;
 		while (temp!=NULL){
 			if (temp->next==NULL){
-				struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
-				new_node->data=data;
-				new_node->next=NULL;
+				struct Node* new_node = allocate(data, NULL);
 				temp->next=new_node;
 			}
+			temp=temp->next;
 		}
 	}
 	return 0;
@@ -36,34 +39,28 @@ int Add_end(int data){
 
 int Add_start(int data){
 	if (list.head==NULL){
-		list.head=(struct Node*)malloc(sizeof(struct Node));
-		list.head->data=data;
-		list.head->next=NULL;
+		list.head = allocate(data, NULL);
 	}
 	else{
-		struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
-		new_node->data = data;
-		new_node->next = list.head;
+		struct Node* new_node = allocate(data, list.head);
 		list.head=new_node;
 	}
 	return 0;
 }
 int Add_after(int insert_after_data_loc, int data_loc){
 	int found=0;
-	struct Node* temp = list.head;
-	while (temp!=NULL){
-		if (temp->data==data_loc){
+	struct Node* current = list.head;
+	while (current!=NULL){
+		if (current->data==data_loc){
 			found=1;
-			struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
-			new_node->data = insert_after_data_loc;
-			if (temp->next==NULL){
-				new_node->next=NULL;
+			struct Node* new_node = allocate(insert_after_data_loc, NULL);
+			if (current->next!=NULL){
+				new_node->next = current->next;
 			}
-			else{
-				new_node->next = temp->next;
-			}
-			temp->next=new_node;
+			current->next=new_node;
+			break;
 		}
+		current=current->next;
 	}
 	if (!found){
 		printf("Error: No such element %d exists!\n", data_loc);
