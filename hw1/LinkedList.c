@@ -3,6 +3,16 @@
 
 #include "LinkedList.h"
 
+struct Node {
+	struct Node* next;
+	int data;
+};
+
+typedef struct {
+	struct Node* head;
+}LinkedList;
+
+
 LinkedList list;
 
 struct Node* allocate(int data, struct Node* next) {
@@ -12,25 +22,25 @@ struct Node* allocate(int data, struct Node* next) {
 	return new_node;
 }
 
-int Add_end(int data) {
+int add_end(int data) {
 	if (list.head == NULL) {
 		list.head = allocate(data, NULL);
 	}
 	else {
-		struct Node* temp = list.head;
-		while (temp != NULL) {
-			if (temp->next == NULL) {
+		struct Node* current = list.head;
+		while (current != NULL) {
+			if (current->next == NULL) {
 				struct Node* new_node = allocate(data, NULL);
-				temp->next = new_node;
+				current->next = new_node;
 				break;
 			}
-			temp = temp->next;
+			current = current->next;
 		}
 	}
 	return 0;
 }
 
-int Add_start(int data) {
+int add_start(int data) {
 	if (list.head == NULL) {
 		list.head = allocate(data, NULL);
 	}
@@ -40,7 +50,8 @@ int Add_start(int data) {
 	}
 	return 0;
 }
-int Add_after(int insert_after_data_loc, int data_loc) {
+
+int add_after(int insert_after_data_loc, int data_loc) {
 	int found = 0;
 	struct Node* current = list.head;
 	while (current != NULL) {
@@ -63,16 +74,16 @@ int Add_after(int insert_after_data_loc, int data_loc) {
 	return 0;
 }
 
-int Index_of(int data) {
+int index_of(int data) {
 	int found = 0, index_found = 0;
-	struct Node* temp = list.head;
-	while (temp != NULL) {
-		if (temp->data == data) {
+	struct Node* current = list.head;
+	while (current != NULL) {
+		if (current->data == data) {
 			found = 1;
 			break;
 		}
 		index_found++;
-		temp = temp->next;
+		current = current->next;
 	}
 	if (found) {
 		printf("%d\n", index_found);
@@ -123,7 +134,7 @@ int length_of_list(){
 	return counter;
 }
 
-int Delete(int index) {
+int delete(int index) {
 	int length = length_of_list();
 	if (index >= length){
 		printf("Error: no such index exists!\n");
@@ -138,7 +149,7 @@ int Delete(int index) {
 	}
 }
 
-int Print_list() {
+int print_list() {
 	printf("[");
 	struct Node* current = list.head;
 	while (current != NULL) {

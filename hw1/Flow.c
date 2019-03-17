@@ -1,44 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "Flow.h"
 #include "LinkedList.h"
 
-
-//private functions headers
 int str_compare(char str1[], char str2[]);
 int length(char* string);
 void toLowerCase(char line[]);
 void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]);
 int getCommandNum(char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]);
 int execute(int commandNum, int i, int j);
+int fetch_and_exec_cmd();
 
 
 int main(void) {
-	while (fetch_and_exec_cmd()) {
-
-	}
+	while (fetch_and_exec_cmd()) {}
 	return 0;
 }
-
 
 int fetch_and_exec_cmd() {
 	int command_num = -1;
 	char command[MAXLINELEN] = { '\0' };
 	char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN] = { { '\0' } };
-
 	if (fgets(command, MAXLINELEN, stdin) == NULL) {
 		return 0;
 	}
 	toLowerCase(command);
-	//printf("entered command is : %s\n", command);
 	parse(command, parsedCommand);
-	//printf("parsed_command[0]: %s, parsed_command[1]: %s, parsed_command[2]: %s. \n", parsedCommand[0], parsedCommand[1], parsedCommand[2]);
 	command_num = getCommandNum(parsedCommand);
 	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]));
 	return 1;
 }
-
 
 int length(char* string) {
 	int length = 0;
@@ -58,13 +49,10 @@ void toLowerCase(char line[]) {
 	}
 }
 
-
 int Exit() {
 	free_list();
 	exit(0);
 }
-
-
 
 /** parse
  * -------
@@ -96,7 +84,6 @@ void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWO
 	return;
 }
 
-
 /** getCommandNum
  * ----------------
  * Determines the number of command which is currently in parsedCommand.
@@ -125,7 +112,6 @@ int getCommandNum(char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]) {
 	return -1;/*no valid command*/
 }
 
-
 /** execute:
  * ------------
  * This function executing the proper function according to the passed commandNum.
@@ -143,35 +129,31 @@ int execute(int commandNum, int i, int j) {
 	case 0: /*Blank line, ignore this 'command'*/
 		break;
 	case 1:
-		Add_end(i);
+		add_end(i);
 		break;
 	case 2:
-		Add_start(i);
+		add_start(i);
 		break;
 	case 3:
-		Add_after(i, j);
+		add_after(i, j);
 		break;
 	case 4:
-		Index_of(i);
+		index_of(i);
 		break;
 	case 5:
-		Delete(i);
+		delete(i);
 		break;
 	case 6:
-		Print_list();
+		print_list();
 		break;
 	case 7:
 		Exit();
 	}
-
 	return 1;
 }
 
-
 int str_compare(char str1[], char str2[]) {
-	
 	int len1, len2, i;
-
 	len1 = length(str1);
 	len2 = length(str2);
 	if (len1 != len2) {
