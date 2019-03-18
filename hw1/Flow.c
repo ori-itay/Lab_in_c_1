@@ -3,11 +3,16 @@
 #include "Flow.h"
 #include "LinkedList.h"
 
-int str_compare(char str1[], char str2[]);
-int length(char* string);
-void toLowerCase(char line[]);
-void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]);
-int getCommandNum(char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]);
+#define MAX_LINE_LEN 100
+#define MAX_WORD_LEN 10
+#define MAX_WORDS_IN_COMMAND 3
+
+//private functions headers
+int string_compare(char str1[], char str2[]);
+int get_string_length(char* string);
+void str_to_lowercase(char line[]);
+void parse(char command[MAX_LINE_LEN], char parsedCommand[MAX_WORDS_IN_COMMAND][MAX_WORD_LEN]);
+int get_command_num(char parsedCommand[MAX_WORDS_IN_COMMAND][MAX_WORD_LEN]);
 int execute(int commandNum, int i, int j);
 int fetch_and_exec_cmd();
 
@@ -19,19 +24,19 @@ int main(void) {
 
 int fetch_and_exec_cmd() {
 	int command_num = -1;
-	char command[MAXLINELEN] = { '\0' };
-	char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN] = { { '\0' } };
-	if (fgets(command, MAXLINELEN, stdin) == NULL) {
+	char command[MAX_LINE_LEN] = { '\0' };
+	char parsedCommand[MAX_WORDS_IN_COMMAND][MAX_WORD_LEN] = { { '\0' } };
+	if (fgets(command, MAX_LINE_LEN, stdin) == NULL) {
 		return 0;
 	}
-	toLowerCase(command);
+	str_to_LowerCase(command);
 	parse(command, parsedCommand);
-	command_num = getCommandNum(parsedCommand);
+	command_num = get_command_num(parsedCommand);
 	execute(command_num, atoi(parsedCommand[1]), atoi(parsedCommand[2]));
 	return 1;
 }
 
-int length(char* string) {
+int get_string_length(char* string) {
 	int length = 0;
 	while (string[length] != '\0') {
 		length++;
@@ -39,7 +44,7 @@ int length(char* string) {
 	return length;
 }
 
-void toLowerCase(char line[]) {
+void str_to_lowercase(char line[]) {
 	int len = length(line);
 	for (int i = 0; i < len; i++) {
 		char letter = line[i];
@@ -54,21 +59,12 @@ int Exit() {
 	exit(0);
 }
 
-/** parse
- * -------
- * Parses a full line of command from user (up to MAXLINELEN chars)
- * to known commands.
- *
- * @param char command[] - A string which is user's 'raw' input command.
- * @param char parsedCommand[][] - Array of MAXWORDSINCOMMAND strings, which is the user's command parsed into words/numbers.
- *
- * @return - void.
- */
-void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN])
+
+void parse(char command[MAX_LINE_LEN], char parsedCommand[MAX_WORDS_IN_COMMAND][MAX_WORD_LEN])
 {
 	int i = 0, letter = 0, word_num = 0;
 
-	for (i = 0; i < MAXLINELEN; i++) {
+	for (i = 0; i < MAX_LINE_LEN; i++) {
 		if (command[i] == '\r' || command[i] == '\n' || command[i] == EOF) { // end of command
 			break;
 		}
@@ -76,7 +72,7 @@ void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWO
 			parsedCommand[word_num][letter++] = command[i];
 		}
 		else { // word ended
-			parsedCommand[word_num][letter] = '\0'; //end of string char
+			parsedCommand[word_num][letter] = '\0'; //add end of string char
 			letter = 0; // initialize letter index
 			word_num++;
 		}
@@ -84,43 +80,27 @@ void parse(char command[MAXLINELEN], char parsedCommand[MAXWORDSINCOMMAND][MAXWO
 	return;
 }
 
-/** getCommandNum
- * ----------------
- * Determines the number of command which is currently in parsedCommand.
- *
- * @param char parsedCommand[][] - Array of MAXWORDSINCOMMAND strings, which is the user's command parsed into words/numbers.
- *
- * @return - int: The number of the command represented in parsedCommand:
- * -1: invalid command, 1: add_end i , 2: add_start i , 3: add_after i j, 4: index,
- * 5: del index , 6: print, 7: exit.
- */
-int getCommandNum(char parsedCommand[MAXWORDSINCOMMAND][MAXWORDLEN]) {
-	if (str_compare(parsedCommand[0], "add_end") == 0 && str_compare(parsedCommand[1], "") != 0)
+
+int get_command_num(char parsedCommand[MAX_WORDS_IN_COMMAND][MAX_WORD_LEN]) {
+	if (string_compare(parsedCommand[0], "add_end") == 0 && string_compare(parsedCommand[1], "") != 0)
 		return 1;
-	if (str_compare(parsedCommand[0], "add_start") == 0 && str_compare(parsedCommand[1], "") != 0)
+	if (string_compare(parsedCommand[0], "add_start") == 0 && string_compare(parsedCommand[1], "") != 0)
 		return 2;
-	if (str_compare(parsedCommand[0], "add_after") == 0 && str_compare(parsedCommand[1], "") != 0 && str_compare(parsedCommand[2], "") != 0)
+	if (string_compare(parsedCommand[0], "add_after") == 0 && string_compare(parsedCommand[1], "") != 0
+		&& string_compare(parsedCommand[2], "") != 0)
 		return 3;
-	if (str_compare(parsedCommand[0], "index") == 0)
+	if (string_compare(parsedCommand[0], "index") == 0)
 		return 4;
-	if (str_compare(parsedCommand[0], "del") == 0 && str_compare(parsedCommand[1], "") != 0)
+	if (string_compare(parsedCommand[0], "del") == 0 && string_compare(parsedCommand[1], "") != 0)
 		return 5;
-	if (str_compare(parsedCommand[0], "print") == 0)
+	if (string_compare(parsedCommand[0], "print") == 0)
 		return 6;
-	if (str_compare(parsedCommand[0], "exit") == 0)
+	if (string_compare(parsedCommand[0], "exit") == 0)
 		return 7;
 	return -1;/*no valid command*/
 }
 
-/** execute:
- * ------------
- * This function executing the proper function according to the passed commandNum.
- *
- * @param int commandNum - The number (index) of the command to be executed.
- * @param char parsedCommand[][] - Array of MAXWORDSINCOMMAND strings, which is the user's command parsed into words/numbers.
- *
- * @return: void.
- */
+
 int execute(int commandNum, int i, int j) {
 	switch (commandNum) {
 	case -1:
@@ -152,8 +132,10 @@ int execute(int commandNum, int i, int j) {
 	return 1;
 }
 
-int str_compare(char str1[], char str2[]) {
+/*returns 0 if both strings are identical, orherwise returns 1.*/
+int string_compare(char str1[], char str2[]) {
 	int len1, len2, i;
+
 	len1 = length(str1);
 	len2 = length(str2);
 	if (len1 != len2) {
