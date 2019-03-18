@@ -94,6 +94,16 @@ int index_of(int data) {
 	return 0;
 }
 
+int length_of_list(){
+	int counter=0;
+	struct Node* current = list.head;
+	while (current != NULL){
+		counter++;
+		current=current->next;
+	}
+	return counter;
+}
+
 int delete_first_element() {
 	if (list.head == NULL) {
 		printf("Error: no such index exists!\n");
@@ -108,7 +118,7 @@ int delete_first_element() {
 	}
 }
 
-int delete_element(int index) {
+int delete_other_elements(int index) {
 	struct Node* father_of_index = list.head;
 	for (int counter = 0; counter < index - 1; counter++) {
 		if (father_of_index == NULL || father_of_index->next == NULL) {
@@ -124,16 +134,6 @@ int delete_element(int index) {
 	return 0;
 }
 
-int length_of_list(){
-	int counter=0;
-	struct Node* current = list.head;
-	while (current != NULL){
-		counter++;
-		current=current->next;
-	}
-	return counter;
-}
-
 int delete(int index) {
 	int length = length_of_list();
 	if (index >= length){
@@ -145,7 +145,7 @@ int delete(int index) {
 		return delete_first_element();
 	}
 	else {
-		return delete_element(index);
+		return delete_other_elements(index);
 	}
 }
 

@@ -1,5 +1,5 @@
-#ifndef LINKEDLIST_H_
-#define LINKEDLIST_H_
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
 void free_list();
 int add_end(int data);
